@@ -68,8 +68,8 @@ const spinWheel = () => {
         const currentTime = Date.now()
         if (currentTime < spinEndTime) {
             const remainingTime = spinEndTime - currentTime
-            const easeOut = t => 1 - Math.pow(1 - t, 3) // 减速效果
-            const spinSpeed = easeOut(remainingTime / spinDuration) * 30 // 控制旋转速度
+            const easeIn = t => Math.pow(t, 3) // 加速效果
+            const spinSpeed = easeIn((spinDuration - remainingTime) / spinDuration) * 30 // 控制旋转速度
 
             startAngle += (Math.PI / spinSpeed)
             ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -87,6 +87,8 @@ const spinWheel = () => {
 
     requestAnimationFrame(animateSpin)
 }
+
+
 
 onMounted(() => {
     if (props.sectors.length > 0) {

@@ -3,13 +3,13 @@ import { ref } from 'vue'
 import { useStorage } from '@vueuse/core'
 
 const optionsBtn = useStorage('options', [
-    {
-        name: '是/否',
-        options:['是', '否', '是', '否']
-    }
+  {
+    name: '是/否',
+    options: ['是', '否', '是', '否']
+  }
 ])
 
-const name=ref('')
+const name = ref('')
 const multilineText = ref('')
 
 
@@ -17,81 +17,67 @@ const textArray = ref(['是', '否', '是', '否'])
 const print = () => {
   textArray.value = multilineText.value.split('\n').filter(line => line.trim() !== '')
   console.log(textArray.value);
-  
+
 }
 
 const changeArray = (value) => {
-  name.value=value.name
+  name.value = value.name
   textArray.value = value.options
   multilineText.value = textArray.value.join('\n')
 }
 
 const save = () => {
-  optionsBtn.value.push({name: name.value, options: textArray.value})
+  optionsBtn.value.push({ name: name.value, options: textArray.value })
 }
 const deleteItem = () => {
-  
+
   optionsBtn.value = optionsBtn.value.filter(item => item.name !== name.value)
 }
-const confettiVisible=ref(false)
-const spin=() => {
- 
+const confettiVisible = ref(false)
+const spin = () => {
+
   setTimeout(() => {
     confettiVisible.value = true
     setTimeout(() => {
       confettiVisible.value = false
     }, 3000);
   }, 3000);
-  
+
 }
 </script>
 
 
 
 <template>
- 
 
 
 
 
+  <v-sheet :elevation="4" class="fixed top-20 left-20" :width="300">
+    <div class="mt-4 mb-4">
+      <v-chip v-for="item in optionsBtn" :key="item.name" @click="changeArray(item)">{{ item.name }}</v-chip>
 
-  <v-container>
-    <v-row>
-      <v-col>
-        <WheelPanel :sectors="textArray" @spin="spin"/>
-        
-      </v-col>
-    </v-row>
- 
- 
-    <v-row>
-      <v-col cols="6">
-        <v-text-field label="分类" v-model="name"></v-text-field>
+    </div>
+    <v-text-field label="分类" v-model="name"></v-text-field>
+    <v-textarea v-model="multilineText" @change="print" label="选项" rows="5" outlined></v-textarea>
+    <div class="flex">
+      <v-btn class="" @click="deleteItem">删除</v-btn>
+      <v-btn @click="save" class="mb-1 ml-1">保存</v-btn>
 
-        <v-textarea v-model="multilineText" @change="print" label="Multiline Text Input" rows="5" outlined></v-textarea>
+    </div>
 
-      </v-col>
-      <v-col cols="1"  v-if="name">
-       <v-btn @click="save" class="mb-1">保存</v-btn>
-       <v-btn @click="deleteItem">删除</v-btn>
 
-      </v-col>
-      <v-col>
+  </v-sheet>
 
-        <v-btn v-for="item in optionsBtn" :key="item.name" @click="changeArray(item)">{{ item.name }}</v-btn>
-      </v-col>
-    </v-row>
-   
-    <ConfettiDemo v-if="confettiVisible" class="confetti"></ConfettiDemo>
-  
-  </v-container>
- 
+
+  <WheelPanel class="mt-20" :sectors="textArray" @spin="spin" />
+  <ConfettiDemo v-if="confettiVisible" class="confetti"></ConfettiDemo>
+
+
+
 
 </template>
 
 <style>
-.confetti{
-
-}
-
+.confetti {}
 </style>
