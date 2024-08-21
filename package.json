@@ -9,9 +9,13 @@
   },
   "dependencies": {
     "@mdi/font": "7.4.47",
+    "@tsparticles/slim": "^3.5.0",
+    "@tsparticles/vue3": "^3.0.1",
     "@vueuse/core": "^11.0.0",
     "core-js": "^3.37.1",
     "roboto-fontface": "*",
+    "tsparticles": "^3.5.0",
+    "tsparticles-engine": "^2.12.0",
     "vue": "^3.4.31",
     "vuetify": "^3.6.11"
   },

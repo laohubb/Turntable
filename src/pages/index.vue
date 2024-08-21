@@ -33,16 +33,33 @@ const deleteItem = () => {
   
   optionsBtn.value = optionsBtn.value.filter(item => item.name !== name.value)
 }
+const confettiVisible=ref(false)
+const spin=() => {
+ 
+  setTimeout(() => {
+    confettiVisible.value = true
+    setTimeout(() => {
+      confettiVisible.value = false
+    }, 3000);
+  }, 3000);
+  
+}
 </script>
 
 
 
 <template>
+ 
+
+
+
+
 
   <v-container>
     <v-row>
       <v-col>
-        <Wheel :sectors="textArray" />
+        <WheelPanel :sectors="textArray" @spin="spin"/>
+        
       </v-col>
     </v-row>
  
@@ -64,8 +81,17 @@ const deleteItem = () => {
         <v-btn v-for="item in optionsBtn" :key="item.name" @click="changeArray(item)">{{ item.name }}</v-btn>
       </v-col>
     </v-row>
-
+   
+    <ConfettiDemo v-if="confettiVisible" class="confetti"></ConfettiDemo>
+  
   </v-container>
-
+ 
 
 </template>
+
+<style>
+.confetti{
+
+}
+
+</style>
