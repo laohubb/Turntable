@@ -13,7 +13,7 @@ import App from './App.vue'
 // Composables
 import { createApp } from 'vue'
 
-
+import "uno.css";
 
 const app = createApp(App)
 

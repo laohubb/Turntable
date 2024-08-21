@@ -9,9 +9,31 @@ import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 
+
+import Unocss from "unocss/vite";
+import {
+  presetAttributify,
+  presetIcons,
+  presetUno,
+  transformerDirectives,
+  transformerVariantGroup,
+} from "unocss";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+ 
+    Unocss({
+      presets: [
+        presetUno(),
+        presetAttributify(),
+        presetIcons({
+          scale: 1.2,
+          warn: true,
+        }),
+      ],
+      transformers: [transformerDirectives(), transformerVariantGroup()],
+    }),
+
     VueRouter(),
     Vue({
       template: { transformAssetUrls }
