@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted,defineEmits } from 'vue'
+import { ref, watch, onMounted,defineEmits, nextTick } from 'vue'
 
 
 const emit = defineEmits(['spin'])
@@ -13,13 +13,21 @@ const props = defineProps({
 
 const wheelCanvas = ref(null)
 const isSpinning = ref(false)
+const isMobile = ref(false)
+onMounted(() => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera
+    isMobile.value = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase())
+    nextTick(() => {
+        drawWheel()
+    })
+})
 
 const drawWheel = () => {
     const canvas = wheelCanvas.value;
     const ctx = canvas.getContext('2d');
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    const radius = 240;
+    const radius = isMobile.value? 120 : 240;
 
     const numOptions = props.sectors.length;
     const angleStep = (2 * Math.PI) / numOptions;
@@ -107,8 +115,8 @@ watch(() => props.sectors, (newSectors) => {
 
 <template>
     <div class="wheel-container">
-        <canvas ref="wheelCanvas" width="500" height="500" class=""></canvas>
-        <v-btn icon="mdi-triangle-outline" @click="spinWheel" :disabled="isSpinning || !sectors.length"></v-btn>
+        <canvas ref="wheelCanvas" :height="isMobile ? 300 : 500" :width="500"></canvas>
+        <v-btn class="mt-1 mb-2" icon="mdi-triangle-outline" @click="spinWheel" :disabled="isSpinning || !sectors.length"></v-btn>
     </div>
 </template>
 
@@ -117,5 +125,7 @@ watch(() => props.sectors, (newSectors) => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
 }
+
 </style>
