@@ -44,7 +44,7 @@ watch(() => props.sectors, (newSectors) => {
     setTimeout(() => {
         wheelVisible.value = true
     }, 0)
-
+    isSpinning.value = false
 }, { deep: true, immediate: true })
 
 // Canvas options
