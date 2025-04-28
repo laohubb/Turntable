@@ -35,7 +35,7 @@ watch(() => props.sectors, (newSectors) => {
             value: sector,
             bgColor: `hsl(${(index / newSectors.length) * 360}, 100%, 75%)`,
             color: '#000000',
-            probability: 100 / newSectors.length // Equal probability for all sectors
+            probability: Math.floor(100 / newSectors.length + (index < 100 % newSectors.length ? 1 : 0)) // 确保是整数且总和为100
         }))
     }
     
